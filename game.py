@@ -99,7 +99,7 @@ class SnakeAI:
         game_over = False
         if self.is_collision() or self.frame_iteration > 100*len(self.snake):
             game_over = True
-            reward = -20
+            reward = -10
             return reward, game_over, self.score
             
         # 4. If snake gets food, update score, reward and place food
