@@ -21,22 +21,22 @@ We used pygame to create the screen using display.set_ mode() package and fill i
 In implementation we started initializing pygame using init() and and quit() at the end of the code. we have also an update method "update_ui()", where we used flip() to update the complete screen.
 
 
-# Moving the snake
-
+# Create and Move the snake
+To create a snake we draw three stacked rectangles stand for head, body and tail. we used pygame.draw.rect() and fill it with desired color and size. The length of the snake is contained in a list and it increases when the snake eats the food. We allowed the snake to move clockwise in different directions(up, down, left and right) within the screen.
 
 
 # Game over
 
+We set that the game will end if the snake hits itself or the boundaries of the screen. After that we reset again and start a new game.
 
 
 # Adding snake Food
 
-
-# State
-
-
-# Action
+We designed the food of snake to have a shape of circle filled with the color(e.g: Green). The food is randomly placed in a screen on a position (x,y), so that the snake can find it while it is moving.
 
 
 # Display results
+
+
+
 
