@@ -9,7 +9,7 @@ Pip install pygame
 
 cd Snake-RL-AMMI
 
-python DQN-Agent.py
+python dqn-agent.py
 
 
 # Create the screen
