@@ -73,6 +73,22 @@ class SnakeAI:
         if self.food in self.snake:
             self._place_food()
         
+        food = self.food
+        head = self.head
+
+    def food_distance(self):
+        """
+        Computes distance from head to food
+            - Args: self.food, self.head
+            - Returns: distance from head to food
+        Intend to use this to compute feedback signal from environment for additional reward for SARSA
+        """
+        food = list(self.food)
+        head = list(self.head)
+        food_distance = [a_i - b_i for a_i, b_i in zip(food, head)]
+        return food_distance
+
+        
     def play_step(self, action):
         """
         Game iteration.
@@ -99,7 +115,7 @@ class SnakeAI:
         game_over = False
         if self.is_collision() or self.frame_iteration > 100*len(self.snake):
             game_over = True
-            reward = -20
+            reward = -10
             return reward, game_over, self.score
             
         # 4. If snake gets food, update score, reward and place food

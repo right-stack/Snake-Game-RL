@@ -50,7 +50,7 @@ class QTrain:
         self.optimizer = optim.Adam(model.parameters(), lr=self.lr)
         self.criterion = nn.MSELoss()
 
-    def return_dtype(self, state, action, reward, next_state, done):
+    def q_learn(self, state, action, reward, next_state, done):
         """
         Gets the policy using epsilon-greedy algorithm
         Args:

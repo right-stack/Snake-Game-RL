@@ -20,8 +20,8 @@ class Agent:
             - game_num: game number
             - epsilon: for randomness
             - gamma: discount rate
-            - memory: 
-            - model: 
+            - memory: a double ended queue to serve as replay buffer
+            - model:  DQNet
             - trainer: 
         """
         self.game_num = 0
@@ -35,6 +35,12 @@ class Agent:
     def get_state(self, game):
         """
         Gets the state of the game
+        State contains eleven values as follows:
+        [
+            danger straight, danger right, danger left,
+            direction left, direction right, direction up, direction down,
+            food left, food right, food up, food down
+        ]
         """
         head = game.snake[0]
         point_left = Point(head.x - 20, head.y)
@@ -88,9 +94,9 @@ class Agent:
         """
         self.memory.append((state, action, reward, next_state, done)) # popleft if MAX_MEMORY is reached
 
-    def train_long_memory(self):
+    def replay_buffer(self):
         """
-        
+        The double ended queue that stores our samples 
         """
         if len(self.memory) > BATCH_SIZE:
             mini_sample = random.sample(self.memory, BATCH_SIZE) # list of tuples
@@ -98,70 +104,71 @@ class Agent:
             mini_sample = self.memory
 
         states, actions, rewards, next_states, dones = zip(*mini_sample)
-        self.trainer.return_dtype(states, actions, rewards, next_states, dones)
-        #for state, action, reward, next_state, done in mini_sample:
-        #    self.trainer.return_dtype(state, action, reward, next_state, done)
+        self.trainer.q_learn(states, actions, rewards, next_states, dones)
 
-    def train_short_memory(self, state, action, reward, next_state, done):
-        self.trainer.return_dtype(state, action, reward, next_state, done)
+    # return optim q of the state, action, reward, next_state and done
+    def episode(self, state, action, reward, next_state, done):
+        self.trainer.q_learn(state, action, reward, next_state, done)
 
     def get_action(self, state):
         """
-        
+        Give best action based on current state
+            - Arg: state
+            - Return: max of actions predicted
         """
-        # random moves: tradeoff exploration / exploitation
+        # random action: tradeoff exploration / exploitation
         self.epsilon = 50 - self.game_num
-        final_move = [0,0,0]
+        final_action = [0,0,0]
         if random.randint(0, 200) < self.epsilon:
             move = random.randint(0, 2)
-            final_move[move] = 1
+            final_action[move] = 1
         else:
             state0 = torch.tensor(state, dtype=torch.float)
             prediction = self.model(state0)
-            move = torch.argmax(prediction).item()
-            final_move[move] = 1
+            move = torch.argmax(prediction).item()  # choose argmax (optimal policy) of predictions. 
+            final_action[move] = 1
 
-        return final_move
+        return final_action
 
 
 def train():
     """
-        
+    Process of training the DQN agent!
     """
     plot_scores = []
     plot_mean_scores = []
     total_score = 0
-    record = 0
+    high_score = 0
     agent = Agent()
     game = SnakeAI()
     while True:
         # get old state
         old_state = agent.get_state(game)
         
-        # get move
-        final_move = agent.get_action(old_state)
+        # get action
+        final_action = agent.get_action(old_state)
 
-        # perform move and get new state
-        reward, done, score = game.play_step(final_move)
+        # perform action and get new state
+        reward, done, score = game.play_step(final_action)
         new_state = agent.get_state(game)
 
         # train short memory
-        agent.train_short_memory(old_state, final_move, reward, new_state, done)
+        agent.episode(old_state, final_action, reward, new_state, done)
 
         # Memory to store experience/episodes
-        agent.experience(old_state, final_move, reward, new_state, done)
+        agent.experience(old_state, final_action, reward, new_state, done)
 
         if done:
             # train long memory, plot result
             game.reset()
             agent.game_num += 1
-            agent.train_long_memory()
+            agent.replay_buffer()
 
-            if score > record:
-                record = score
+            if score > high_score:
+                high_score = score
                 agent.model.save()    
 
-            print('No of Games: ', agent.game_num, 'Score of Game: ', score, 'High Score:', record)
+            print('No of Games: ', agent.game_num, 'Score of Game: ', score, 'High Score:', high_score)
 
             plot_scores.append(score)
             total_score += score
