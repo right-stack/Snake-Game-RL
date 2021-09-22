@@ -36,7 +36,3 @@ We designed the food of snake to have a shape of circle filled with the color(e.
 
 
 # Display results
-
-
-
-
