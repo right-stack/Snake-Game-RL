@@ -3,7 +3,10 @@ Here we implemented the snake game using Deep Q learning model (https://arxiv.or
 
 # Installation
 
-Pip install pygame
+pip install torch
+
+pip install pygame
+
 
 # Run code
 
@@ -13,6 +16,9 @@ python dqn-agent.py
 
 
 # Create the screen
+We used pygame to create the screen using display.set_ mode() package and fill it with RGB color(white). The screen we used has a rectangle shape with the width= 480 and lenght = 640. The screen is designed in such a way that you can update the changes that are made like snake movement.
+
+In implementation we started initializing pygame using init() and and quit() at the end of the code. we have also an update method "update_ui()", where we used flip() to update the complete screen.
 
 
 # Moving the snake
