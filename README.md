@@ -35,4 +35,3 @@ We set that the game will end if the snake hits itself or the boundaries of the 
 We designed the food of snake to have a shape of circle filled with the color(e.g: Green). The food is randomly placed in a screen on a position (x,y), so that the snake can find it while it is moving.
 
 
-# Display results
