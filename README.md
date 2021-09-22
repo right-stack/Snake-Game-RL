@@ -1,6 +1,6 @@
 # Implementation of Snake game 
 
-# Install pygame
+** Install pygame
 
 Pip install pygame
 
