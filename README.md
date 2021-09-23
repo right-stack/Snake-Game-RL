@@ -12,7 +12,9 @@ This will create a folder on your computer that you can access from the command 
 
 ```
 cd Snake-RL-AMMI
-```
+
+python dqn-agent.py
+``` 
 
 ## Requirements
 
@@ -25,19 +27,3 @@ The other libraries used are in the file ```requirements.txt```
 ```
 pip install -r requirements.txt
 ```
-
-
-# Installation
-
-pip install torch
-
-pip install pygame
-
-
-# Run code
-
-cd Snake-RL-AMMI
-
-python dqn-agent.py
-
-
