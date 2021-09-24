@@ -1,4 +1,3 @@
-# This environment is an adaptation of snake game made with pygame from https://github.com/python-engineer/python-fun 
 
 import pygame
 import random

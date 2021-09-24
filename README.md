@@ -1,5 +1,5 @@
 # DQN-Snake
-The classic Snake game using Deep Q-Networks (https://arxiv.org/pdf/1509.06461.pdf). The snake game environment used was implemented in Pygame. A DQN agent plays the game by going towards the objective, the action is predicted by the Neural Network from the state.
+The classic Snake game played by a Deep Q-Networks agent (https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf). The snake game environment used was implemented in Pygame. The DQN agent plays the game by going towards the objective, the action is predicted by the Neural Network from the state.
 
 ## Usage
 
@@ -18,7 +18,7 @@ python dqn-agent.py
 
 ## Requirements
 
-The langage that is used is Python (version 3.8.5), which can be downloaded at https://www.python.org/. 
+Programming language used is [Python](https://www.python.org/) (version 3.8.5). 
 
 [Pytorch](https://www.pytorch.org/), an open source deep learning library. 
 
